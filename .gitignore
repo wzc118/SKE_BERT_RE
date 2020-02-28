@@ -1,0 +1,6 @@
+*.pyc
+*.pickle
+saved_models/*
+raw_data/chinese/*
+data/*
+

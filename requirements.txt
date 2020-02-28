@@ -1,0 +1,9 @@
+pytorch-crf
+transformers==2.1.1
+torch==1.1.0
+prefetch-generator
+tqdm
+shap
+pyahocorasick
+xgboost 
+

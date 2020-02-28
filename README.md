@@ -6,14 +6,24 @@ BERT based solution for IE problem in 2019 Language and Intelligence Challenge.
 - pytorch 1.10
 - OpenKE
 
+# Data
+Download from [2019 Language and Intelligence Challenge](http://lic2019.ccf.org.cn/kg)
+Put data resources into `raw_data/chinese`
+
 # Solution
 ### two steps solution
  
 Firstly do the multi-label relation extraction`pso_1`, secondly do the entity extraction`pso_2` with Bert structure.
 
+pso_1            |  pso_2
+:-------------------------:|:-------------------------:
+![image](pics/pso_1.png) |  ![image](pics/pso_2.png)
+
 ### multi head selection solution
 
 Replace the lstm structure with Bert for the paper [Joint entity recognition and relation extraction as a multi-head selection problem](https://arxiv.org/abs/1804.07847).
+
+![image](pics/e2e.png)
 
 # Run 
 ### preprocess
@@ -61,15 +71,32 @@ cancel comment on `self.spo_search(text,result)`
 - prepare positive negative samples
 - prepare TransE score
 
-#### prepare positive negative samples
+#### prepare positive negative samples for Training data
 cancel comment on `tester.run()` , get `pos_neg.json` output
 ```shell
 python lib/kg/negative_sample.py
 ``` 
-Then rerun the model to get the model confidence score for pos/neg data and get the ouput `pos_neg_score.json`
+Modify tag `xgb_train_root` in `experiments` to according run .json, like `pos_neg_score.json`,
+Then rerun the model to get the model confidence score for pos/neg data and get the ouput `pos_neg_score.json`.
+```shell
+# multi-head selection
+python main.py --mode postcheck --exp_name chinese_bert_re
+# pso two steps model
+python main.py --mode postcheck --exp_name chinese_bert_pso --type pso_2
+```
+#### prepare for dev data
+For dev data, modify tag `xgb_train_root` to `dev.json`.  
+If use multi-head model, just run 
 ```shell
 python main.py --mode postcheck --exp_name chinese_bert_re
-python main.py --mode postcheck --exp_name chinese_bert_pso --type pso_2
+```
+If pso two steps model
+```shell
+python main.py --mode postcheck --exp_name chinese_bert_re
+```
+then comment on `tester.spo_search_res()`, `scp error/chinese_bert_pso/dev.json data/chinese_bert/pso/dev.json`,then rerun
+```shell
+python main.py --mode postcheck --exp_name chinese_bert_re
 ```
 
 #### prepare TransE score
@@ -90,4 +117,11 @@ Firstly, for the training data, then for the dev data.
 ```shell
 python kg/post_check.py 
 ```
+
+### Others
+#### Model Ensemble
+![image](pics/stacking.png)
+
+#### Bert attention visualization
+see in `lib/metrics/attn_vis.py`
 
