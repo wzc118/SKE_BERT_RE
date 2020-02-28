@@ -23,7 +23,7 @@ pso_1            |  pso_2
 
 Replace the lstm structure with Bert for the paper [Joint entity recognition and relation extraction as a multi-head selection problem](https://arxiv.org/abs/1804.07847).
 
-![image](pics/e2e.png)
+<div align = "center"><img src = 'pics/e2e.png' width = 400 /></div>
 
 # Run 
 ### preprocess
@@ -120,7 +120,7 @@ python kg/post_check.py
 
 ### Others
 #### Model Ensemble
-![image](pics/stacking.png)
+<div align = "center"><img src = 'pics/stacking.png' width = 600 /></div>
 
 #### Bert attention visualization
 see in `lib/metrics/attn_vis.py`
